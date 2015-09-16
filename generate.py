@@ -36,7 +36,7 @@ def get_a_tweet():
 	if debugging:
 		print "DEBUGGING: finding a tweet ..."
 	the_length = 160
-	while not the_length in range(46,141):
+	while not (45 < the_length < 141):
 		the_tweet = subprocess.check_output(["dadadodo -c 1 -l /150/chains.dat -w 10000"],shell=True).strip()
 		the_length = len(the_tweet)
 		if debugging:
@@ -64,10 +64,10 @@ while not got_it:
 # This next code paragraph (currently nine lines) are based on a tutorial at nihkil's blog, http://nodotcom.org/python-twitter-tutorial.html
 
 cfg = { 
-    "consumer_key"        : 'cu1M5PSoCjrjGUy5zK44Q7RXz',
-    "consumer_secret"     : 'R4MMAjTFFjb4HYvySTDShZ6cBGUouxqIY2OsPTrNrL3HybdLYz',
-    "access_token"        : '98912248-JwFQGrHeGLhHMW59kKjbewA7259rOT0hwkzPkZ89X',
-    "access_token_secret" : 'pf9ZTk9WkUYYn7Ev5UxhbwyRoDH2tdgCP015Esuzwtqbx'
+    'consumer_key'        : 'cu1M5PSoCjrjGUy5zK44Q7RXz',
+    'consumer_secret'     : 'R4MMAjTFFjb4HYvySTDShZ6cBGUouxqIY2OsPTrNrL3HybdLYz',
+    'access_token'        : '98912248-JwFQGrHeGLhHMW59kKjbewA7259rOT0hwkzPkZ89X',
+    'access_token_secret' : 'pf9ZTk9WkUYYn7Ev5UxhbwyRoDH2tdgCP015Esuzwtqbx'
     }
 auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
 auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
