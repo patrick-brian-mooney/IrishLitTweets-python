@@ -16,7 +16,7 @@ v1.1: 22 September 2015
 * Processes command-line arguments.
 * Can manually sort the tweet archive with the --sort-archive command-line option.
 
-v1.2: 29 Septemer 2015
+v1.2: 29 September 2015
 ----------------------
 * Should now wait if rate limit is exceeded.
 * Additional command-line arguments: -x, --extra-material: for saving rejected text that can't be tweeted.
