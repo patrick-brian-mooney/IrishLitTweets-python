@@ -1,7 +1,7 @@
 REVISION HISTORY
 ================
 
-Current version is v1.2, 29 September 2015
+Current version is v1.21, 7 October 2015
 
 
 v1: 15 September 2015
@@ -23,6 +23,13 @@ v1.2: 29 September 2015
 * Additional command-line arguments: -a, --archive: for specifying the location of the tweets archive.
 * Slightly better PEP8 compliance.
 * The march toward further abstraction continues.
+
+v1.21: 7 October 2015
+---------------------
+* Pulled the logging code out to a separate module, since I'm winding up using it in multiple scripts.
+  * patrick_logger.py is currently the only script in the library I'm developing at https://github.com/patrick-brian-mooney/personal-library.
+    * You can get it there if you need it. 
+* Minor documentation updates.
 
 
 FUTURE PLANS
