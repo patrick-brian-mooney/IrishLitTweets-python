@@ -1,7 +1,7 @@
 IRISH LIT AUTOTWEETS generate.py SCRIPT
 =======================================
 
-v1.21: 7 October 2015
+v1.3: 7 October 2015
 
 This script generates the content of the [@IrishLitTweets](http://twitter.com/IrishLitTweets) Twitter account. There's a [general overview](http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/) and a [more technical write-up](http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/technical.html). This script's extra material is currently left behind to be periodically posted to the [Automated Irish Literature Discourses](http://autoirishlitdiscourses.tumblr.com/) Tumblr account; there's [a separate script](https://github.com/patrick-brian-mooney/IrishLitDiscourses-python) that handles that process.
 

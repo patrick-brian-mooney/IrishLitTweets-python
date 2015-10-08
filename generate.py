@@ -42,6 +42,12 @@ COMMAND-LINE OPTIONS
       NEVER (intentionally) erases text from this file, so if you specify this
       option and nothing else is cleaning it out for you, you will need to clean
       it out manually or just resign yourself to it growing boundlessly.
+      
+      Since v1.3, this option also makes the script try (most of the time) to
+      generate more than one sentence: without this option, the script just
+      asks DadaDodo for a single sentence. With this option, the script will
+      try to generate anywhere between one and six sentences. This has the side
+      effect of producing a lot more material for the extra material archive.
   
   -v, --verbose
       Increase the verbosity of the script, i.e. get more output. Can be
@@ -62,7 +68,7 @@ COMMAND-LINE OPTIONS
    2    Give more detail about processing command-line options and about
         interacting with Twitter.
    3    Currently equivalent to level 2.
-   4    Also explicitly say that the patrick_logger.log_it() function was called. This will
+   4    Also explicitly say that the log_it() function was called. This will
         probably double or triple the size of the log. It will certainly produce
         three times as many lines.
 
@@ -84,7 +90,7 @@ Some current problems:
     * little to no error checking
     * not enough is configurable via the command line
     
-This is v1.21. A version number above 1 doesn't mean it's ready for the public,
+This is v1.3. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
 http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/
 
@@ -97,7 +103,7 @@ screen.
 """
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
-__version__ = "$v1.21 $"
+__version__ = "$v1.3 $"
 __date__ = "$Date: 2015/10/07 11:56:00 $"
 __copyright__ = "Copyright (c) 2015 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"

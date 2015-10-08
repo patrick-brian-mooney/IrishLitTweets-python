@@ -1,7 +1,7 @@
 REVISION HISTORY
 ================
 
-Current version is v1.21, 7 October 2015
+Current version is v1.3, 7 October 2015
 
 
 v1: 15 September 2015
@@ -30,6 +30,12 @@ v1.21: 7 October 2015
   * patrick_logger.py is currently the only script in the library I'm developing at https://github.com/patrick-brian-mooney/personal-library.
     * You can get it there if you need it. 
 * Minor documentation updates.
+
+v1.3: 7 October 2015
+--------------------
+* The script may now generate tweets of up to six sentences.
+* This only happens when -x or --extra-material-archive is specified onthe command line.
+* This has the effect of dumping material to the extra material archive more quickly. I'm OK with that.
 
 
 FUTURE PLANS
