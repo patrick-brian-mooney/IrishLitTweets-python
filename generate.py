@@ -84,7 +84,7 @@ Some current problems:
     * little to no error checking
     * not enough is configurable via the command line
     
-This is v1.2.1. A version number above 1 doesn't mean it's ready for the public,
+This is v1.21. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
 http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/
 
@@ -107,16 +107,17 @@ import pprint
 import getopt
 import sys
 import datetime
+import random
 
 import tweepy
 
-import patrick_logger # See https://github.com/patrick-brian-mooney/personal-library
+import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
 
 # Set up default values
 
 # patrick_logger.verbosity_level = 4 # uncomment this to set the starting verbosity level
 
-extra_material_archive = ''  # An empty string means don't archive (i.e., do discard) material that's too long.
+extra_material_archive_path = ''  # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is" + str(patrick_logger.verbosity_level),0)
@@ -161,29 +162,40 @@ def sort_archive():
 
 def get_a_tweet():
     """Find a tweet. Keep trying until we find one that's an acceptable length. This
-    function doesn't check to see if the tweet has been tweeted before.
+    function doesn't check to see if the tweet has been tweeted before; it just
+    finds a tweet that's in acceptable length parameters.
+    
+    Normally this procedure asks DadaDodo for a single-sentence chunk of text, but
+    note that if and only if -x or --extra-material-archive is in effect, the
+    procedure asks for a random number of sentences between one and six. Most
+    chunks of text generated from more than one sentence will be too long, which
+    means that material accumulates in the archive faster.
     """
     patrick_logger.log_it("INFO: finding a tweet ...")
     the_length = 160
     the_tweet = ''
+    sentences_requested = 1
     while not (45 < the_length < 141):
-        if the_tweet and extra_material_archive:
+        if extra_material_archive_path:
+            sentences_requested = random.choice(range(1,6))
+            patrick_logger.log_it("\nINFO: We're asking for " + str(sentences_requested) + " sentences.", 2)
+        if the_tweet and extra_material_archive_path:
             try:
-                extra_material_archive_file = open(extra_material_archive,'a')
-                extra_material_archive_file.write(the_tweet + ' ')
-                extra_material_archive_file.close()
+                extra_material_archive_path_file = open(extra_material_archive_path,'a')
+                extra_material_archive_path_file.write(the_tweet + ' ')
+                extra_material_archive_path_file.close()
                 patrick_logger.log_it("INFO: Wrote tweet to extra material archive",2)
             except IOError: # and others?
                 patrick_logger.log_it("ERROR: Could not write extra material to archive",0)
-        the_tweet = subprocess.check_output(["dadadodo -c 1 -l /150/chains.dat -w 10000"],shell=True).strip()
+        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"],shell=True).strip()
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
     patrick_logger.log_it("OK, that's it, we found one")
-    if extra_material_archive:	# End the paragraph that we've been accumulating during this run. 
+    if extra_material_archive_path:	# End the paragraph that we've been accumulating during this run. 
         try:
-            extra_material_archive_file = open(extra_material_archive,'a')
-            extra_material_archive_file.write('\n\n') # Start a new paragraph in the extra material archive.
-            extra_material_archive_file.close()
+            extra_material_archive_path_file = open(extra_material_archive_path,'a')
+            extra_material_archive_path_file.write('\n\n') # Start a new paragraph in the extra material archive.
+            extra_material_archive_path_file.close()
         except IOError: # and others?
             patrick_logger.log_it("Couldn't start new paragraph in extra material archive",0)
     return the_tweet
@@ -218,7 +230,7 @@ if len(sys.argv) > 1: # The first option in argv, of course, is the name of the 
             patrick_logger.verbosity_level -= 1
         elif opt in ('-x', '--extra-material'):
             patrick_logger.log_it('INFO: ' + opt + ' invoked; extra material archive initialized to ' + args,2)
-            extra_material_archive = args
+            extra_material_archive_path = args
         elif opt in ('-a', '--archive'):
             patrick_logger.log_it('INFO: ' + opt + ' invoked; tweet archive set to ' + args,2)
             tweet_archive_path = args
