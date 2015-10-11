@@ -1,7 +1,7 @@
 REVISION HISTORY
 ================
 
-Current version is v1.3, 7 October 2015
+Current version is v1.3, 10 October 2015
 
 
 v1: 15 September 2015
@@ -37,6 +37,11 @@ v1.3: 7 October 2015
 * This only happens when -x or --extra-material-archive is specified onthe command line.
 * This has the effect of dumping material to the extra material archive more quickly. I'm OK with that.
 
+v1.3: 10 October 2015
+---------------------
+* No version number bump. Only tiny changes.
+* No more than four sentences in a tweet.
+* Small updates for PEP8 compliance thanks to pylint.
 
 FUTURE PLANS
 ============
