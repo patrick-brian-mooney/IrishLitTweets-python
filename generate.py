@@ -4,7 +4,7 @@
 
 If you're reading this statement, be aware that this is early-development code
 that's nowhere near complete and not really intended for public use. However,
-feedback is most welcome. See http://patrickbrianmooney.nfshost.com/~patrick/contact.html 
+feedback is most welcome. See http://patrickbrianmooney.nfshost.com/~patrick/contact.html
 
 This script is by Patrick Mooney. It generates tweets based on writing I did as
 a teaching assistant for a course on Irish literature. More information about
@@ -42,21 +42,21 @@ COMMAND-LINE OPTIONS
       NEVER (intentionally) erases text from this file, so if you specify this
       option and nothing else is cleaning it out for you, you will need to clean
       it out manually or just resign yourself to it growing boundlessly.
-      
+
       Since v1.3, this option also makes the script try (most of the time) to
       generate more than one sentence: without this option, the script just
       asks DadaDodo for a single sentence. With this option, the script will
       try to generate anywhere between one and six sentences. This has the side
       effect of producing a lot more material for the extra material archive.
-  
+
   -v, --verbose
       Increase the verbosity of the script, i.e. get more output. Can be
       specified multiple times to make the script more and more verbose.
       Current verbosity levels are defined below & are subject to change in
-      future versions of the script. 
+      future versions of the script.
 
   -q, --quiet
-      Decrease the verbosity of the script. You can mix -v and -q, bumping the 
+      Decrease the verbosity of the script. You can mix -v and -q, bumping the
       verbosity level up and down as the command line is processed, but really,
       what are you doing with your life?
 
@@ -89,7 +89,7 @@ Some current problems:
     * consumer secret is visible in script
     * little to no error checking
     * not enough is configurable via the command line
-    
+
 This is v1.3. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
 http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/
@@ -126,15 +126,16 @@ import patrick_logger # From https://github.com/patrick-brian-mooney/personal-li
 extra_material_archive_path = ''  # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
-patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is" + str(patrick_logger.verbosity_level),0)
+patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is" + str(patrick_logger.verbosity_level), 0)
 
 
 
 # Functions
 
 def print_usage():
+    """Print a usage message to the terminal"""
     patrick_logger.log_it("INFO: print_usage() was called")
-    print(__doc__)
+    print __doc__
 
 def sort_archive():
     """Sort the tweet archive. There's no obvious benefit to doing so. Call the script
@@ -143,16 +144,16 @@ def sort_archive():
     """
     patrick_logger.log_it("INFO: sort_archive() was called")
     try:
-        tweet_archive = open(tweet_archive_path,'r+')
+        tweet_archive = open(tweet_archive_path, 'r+')
     except IOError:
         patrick_logger.log_it("ERROR: can't open tweet archive file.", 0)
         sys.exit(3)
     try:
         all_tweets = tweet_archive.readlines() # we now have a list of strings
-        patrick_logger.log_it("DEBUGGING: Tweets archive successfully opened",2)
+        patrick_logger.log_it("DEBUGGING: Tweets archive successfully opened", 2)
         patrick_logger.log_it("INFO:   Current size of tweets archive is " + str(tweet_archive.tell()) + " bytes.")
         patrick_logger.log_it("INFO:   And it is currently " + str(datetime.datetime.now()))
-        patrick_logger.log_it("INFO: About to sort",2)
+        patrick_logger.log_it("INFO: About to sort", 2)
         all_tweets.sort()
         tweet_archive.seek(0)
         patrick_logger.log_it("DEBUGGING: About to start writing.", 2)
@@ -170,7 +171,7 @@ def get_a_tweet():
     """Find a tweet. Keep trying until we find one that's an acceptable length. This
     function doesn't check to see if the tweet has been tweeted before; it just
     finds a tweet that's in acceptable length parameters.
-    
+
     Normally this procedure asks DadaDodo for a single-sentence chunk of text, but
     note that if and only if -x or --extra-material-archive is in effect, the
     procedure asks for a random number of sentences between one and six. Most
@@ -181,31 +182,31 @@ def get_a_tweet():
     the_length = 160
     the_tweet = ''
     sentences_requested = 1
-    while not (45 < the_length < 141):
+    while not 45 < the_length < 141:
         if extra_material_archive_path:
-            sentences_requested = random.choice(range(1,6))
+            sentences_requested = random.choice(range(1, 4))
             patrick_logger.log_it("\nINFO: We're asking for " + str(sentences_requested) + " sentences.", 2)
         if the_tweet and extra_material_archive_path:
             try:
-                extra_material_archive_path_file = open(extra_material_archive_path,'a')
+                extra_material_archive_path_file = open(extra_material_archive_path, 'a')
                 extra_material_archive_path_file.write(the_tweet + ' ')
                 extra_material_archive_path_file.close()
-                patrick_logger.log_it("INFO: Wrote tweet to extra material archive",2)
+                patrick_logger.log_it("INFO: Wrote tweet to extra material archive", 2)
             except IOError: # and others?
-                patrick_logger.log_it("ERROR: Could not write extra material to archive",0)
-        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"],shell=True).strip()
+                patrick_logger.log_it("ERROR: Could not write extra material to archive", 0)
+        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"], shell=True).strip()
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
     patrick_logger.log_it("OK, that's it, we found one")
-    if extra_material_archive_path:	# End the paragraph that we've been accumulating during this run. 
+    if extra_material_archive_path:	# End the paragraph that we've been accumulating during this run.
         try:
-            extra_material_archive_path_file = open(extra_material_archive_path,'a')
+            extra_material_archive_path_file = open(extra_material_archive_path, 'a')
             extra_material_archive_path_file.write('\n\n') # Start a new paragraph in the extra material archive.
             extra_material_archive_path_file.close()
         except IOError: # and others?
-            patrick_logger.log_it("Couldn't start new paragraph in extra material archive",0)
+            patrick_logger.log_it("Couldn't start new paragraph in extra material archive", 0)
     return the_tweet
-    
+
 
 # Script's execution starts here
 
@@ -215,15 +216,15 @@ patrick_logger.log_it('Starting verbosity level is ' + str(patrick_logger.verbos
 # Parse command-line options, if there are any
 if len(sys.argv) > 1: # The first option in argv, of course, is the name of the program itself.
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'vhqx:a:', ['verbose','help','quiet','sort-archive','extra-material=','tweet-archive='])
-        patrick_logger.log_it('INFO: options returned from getopt.getopt() are: ' + pprint.pformat(opts),2)
+        opts, args = getopt.getopt(sys.argv[1:], 'vhqx:a:', ['verbose', 'help', 'quiet', 'sort-archive', 'extra-material=', 'tweet-archive='])
+        patrick_logger.log_it('INFO: options returned from getopt.getopt() are: ' + pprint.pformat(opts), 2)
     except getopt.GetoptError:
         patrick_logger.log_it('ERROR: Bad command-line arguments; exiting to shell')
         print_usage()
         sys.exit(2)
-    patrick_logger.log_it('INFO: detected number of command-line arguments is ' + str(len(sys.argv)),2)
-    for opt,args in opts:
-        patrick_logger.log_it('Processing option ' + str(opt),2)
+    patrick_logger.log_it('INFO: detected number of command-line arguments is ' + str(len(sys.argv)), 2)
+    for opt, args in opts:
+        patrick_logger.log_it('Processing option ' + str(opt), 2)
         if opt in ('-h', '--help'):
             patrick_logger.log_it('INFO: ' + opt + ' invoked, printing usage message')
             print_usage()
@@ -235,17 +236,17 @@ if len(sys.argv) > 1: # The first option in argv, of course, is the name of the 
             patrick_logger.log_it('INFO: ' + opt + ' invoked, decreasing verbosity level by one\n     Verbosity level is about to drop to ' + str(patrick_logger.verbosity_level-1))
             patrick_logger.verbosity_level -= 1
         elif opt in ('-x', '--extra-material'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked; extra material archive initialized to ' + args,2)
+            patrick_logger.log_it('INFO: ' + opt + ' invoked; extra material archive initialized to ' + args, 2)
             extra_material_archive_path = args
         elif opt in ('-a', '--archive'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked; tweet archive set to ' + args,2)
+            patrick_logger.log_it('INFO: ' + opt + ' invoked; tweet archive set to ' + args, 2)
             tweet_archive_path = args
         elif opt == '--sort-archive':
             patrick_logger.log_it('INFO: --sort-archive specified; sorting and exiting')
             sort_archive()
             sys.exit()
 else:
-    patrick_logger.log_it('DEBUGGING: No command-line parameters',2)
+    patrick_logger.log_it('DEBUGGING: No command-line parameters', 2)
 
 patrick_logger.log_it('DEBUGGING: patrick_logger.verbosity_level after parsing command line is ' +str(patrick_logger.verbosity_level))
 
@@ -265,7 +266,7 @@ while not got_it:
 # This next code paragraph is partially based on a tutorial at nihkil's blog, http://nodotcom.org/python-twitter-tutorial.html
 
 # If you're using this script, you'll have to fill in the values below. See nihkil's blog post for a sample of how to get these keys, tokens, and secrets.
-cfg = { 
+cfg = {
     'consumer_key'        : 'FILL ME IN',
     'consumer_secret'     : 'FILL ME IN',
     'access_token'        : 'FILL ME IN',
@@ -280,12 +281,12 @@ except tweepy.error.TweepError:
     pass # for now, we just want to trap this silently, not act on it; later, we'll log it explicitly. Note that this error will currently get recorded indirectly in the log anyway.
 else:
     # If everything worked, add the tweet to the tweet archive.
-    open(tweet_archive_path,'a').write(the_tweet + "\n")
+    open(tweet_archive_path, 'a').write(the_tweet + "\n")
 finally:
-    patrick_logger.log_it('DEBUGGING:  Authorization object:\n' + pprint.pformat(vars(auth)) + '\nDEBUGGING:  API object:\n' + pprint.pformat(vars(api)) + '\nDEBUGGING:  Status object:',2)
+    patrick_logger.log_it('DEBUGGING:  Authorization object:\n' + pprint.pformat(vars(auth)) + '\nDEBUGGING:  API object:\n' + pprint.pformat(vars(api)) + '\nDEBUGGING:  Status object:', 2)
     try:
-        patrick_logger.log_it(pformat.pprint(vars(status)),2)
+        patrick_logger.log_it(pprint.pformat(vars(status)), 2)
     except NameError:
-        patrick_logger.log_it('  Not created, because an error occurred',2)
+        patrick_logger.log_it('  Not created, because an error occurred', 2)
 
 # We're done.
