@@ -126,7 +126,7 @@ import patrick_logger # From https://github.com/patrick-brian-mooney/personal-li
 extra_material_archive_path = ''  # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
-patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is" + str(patrick_logger.verbosity_level), 0)
+patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
 
 
 
