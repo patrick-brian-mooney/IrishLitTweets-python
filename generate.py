@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
   ./generate.py [options]
 
@@ -135,7 +135,7 @@ patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(
 def print_usage():
     """Print a usage message to the terminal"""
     patrick_logger.log_it("INFO: print_usage() was called")
-    print __doc__
+    print(__doc__)
 
 def sort_archive():
     """Sort the tweet archive. There's no obvious benefit to doing so. Call the script
@@ -184,7 +184,7 @@ def get_a_tweet():
     sentences_requested = 1
     while not 45 < the_length < 141:
         if extra_material_archive_path:
-            sentences_requested = random.choice(range(1, 4))
+            sentences_requested = random.choice(list(range(1, 4)))
             patrick_logger.log_it("\nINFO: We're asking for " + str(sentences_requested) + " sentences.", 2)
         if the_tweet and extra_material_archive_path:
             try:
@@ -194,7 +194,7 @@ def get_a_tweet():
                 patrick_logger.log_it("INFO: Wrote tweet to extra material archive", 2)
             except IOError: # and others?
                 patrick_logger.log_it("ERROR: Could not write extra material to archive", 0)
-        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"], shell=True).strip()
+        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"], shell=True).decode().strip()
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
     patrick_logger.log_it("OK, that's it, we found one")

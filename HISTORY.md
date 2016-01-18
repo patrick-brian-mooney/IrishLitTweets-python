@@ -1,7 +1,7 @@
 REVISION HISTORY
 ================
 
-Current version is v1.3, 10 October 2015
+Current version is v1.4, 17 January 2016
 
 
 v1: 15 September 2015
@@ -42,6 +42,12 @@ v1.3: 10 October 2015
 * No version number bump. Only tiny changes.
 * No more than four sentences in a tweet.
 * Small updates for PEP8 compliance thanks to pylint.
+
+v1.4: 17 January 2016
+---------------------
+* Converted from Python 2 to Python 3
+  * This eases the burden of actively maintaining both environments on my laptop.
+  * It also means there's less setup to do when I disto-hop.
 
 FUTURE PLANS
 ============
