@@ -46,7 +46,7 @@ COMMAND-LINE OPTIONS
       Since v1.3, this option also makes the script try (most of the time) to
       generate more than one sentence: without this option, the script just
       asks DadaDodo for a single sentence. With this option, the script will
-      try to generate anywhere between one and six sentences. This has the side
+      try to generate anywhere between one and four sentences. This has the side
       effect of producing a lot more material for the extra material archive.
 
   -v, --verbose
@@ -85,12 +85,12 @@ or
 if it's not installed already.
 
 Some current problems:
-    * no way to authenticate via the script itself
+    * no way to authenticate with Twitter via the script itself
     * consumer secret is visible in script
     * little to no error checking
     * not enough is configurable via the command line
 
-This is v1.3. A version number above 1 doesn't mean it's ready for the public,
+This is v1.4. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
 http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/
 
@@ -103,9 +103,9 @@ screen.
 """
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
-__version__ = "$v1.3 $"
-__date__ = "$Date: 2015/10/07 11:56:00 $"
-__copyright__ = "Copyright (c) 2015 Patrick Mooney"
+__version__ = "$v1.4 $"
+__date__ = "$Date: 2016/01/17 20:44:00 $"
+__copyright__ = "Copyright (c) 2015-16 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"
 
 import subprocess
@@ -115,20 +115,16 @@ import sys
 import datetime
 import random
 
-import tweepy
-
 import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
+import social_media
+from social_media_auth import IrishLitTweets_client
 
 # Set up default values
-
-# patrick_logger.verbosity_level = 4 # uncomment this to set the starting verbosity level
-
-extra_material_archive_path = ''  # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
+# patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
+extra_material_archive_path = ''        # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
-
-
 
 # Functions
 
@@ -214,7 +210,7 @@ patrick_logger.log_it('INFO: command line is: ' + pprint.pformat(sys.argv) + "\n
 patrick_logger.log_it('Starting verbosity level is ' + str(patrick_logger.verbosity_level))
 
 # Parse command-line options, if there are any
-if len(sys.argv) > 1: # The first option in argv, of course, is the name of the program itself.
+if len(sys.argv) > 1: # The first option (index 0) in argv, of course, is the name of the program itself.
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'vhqx:a:', ['verbose', 'help', 'quiet', 'sort-archive', 'extra-material=', 'tweet-archive='])
         patrick_logger.log_it('INFO: options returned from getopt.getopt() are: ' + pprint.pformat(opts), 2)
@@ -255,38 +251,16 @@ got_it = False
 
 while not got_it:
     the_tweet = get_a_tweet()
-    if the_tweet in open(tweet_archive_path).read():    # Incidentally, this is a really bad idea if the tweets log ever gets very big
+    if the_tweet in open(tweet_archive_path).read():    # Incidentally, this is a bad idea if the tweets log ever gets very big
         patrick_logger.log_it("That was already tweeted! Trying again ...\n\n\n")
     else:
         got_it = True
         patrick_logger.log_it("Aaaaaand that one's new. Tweeting it ...\n\n")
 
-
 # Now, post the tweet.
-# This next code paragraph is partially based on a tutorial at nihkil's blog, http://nodotcom.org/python-twitter-tutorial.html
-
-# If you're using this script, you'll have to fill in the values below. See nihkil's blog post for a sample of how to get these keys, tokens, and secrets.
-cfg = {
-    'consumer_key'        : 'FILL ME IN',
-    'consumer_secret'     : 'FILL ME IN',
-    'access_token'        : 'FILL ME IN',
-    'access_token_secret' : 'FILL ME IN'
-    }
-try:
-    auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
-    auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
-    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-    status = api.update_status(status=the_tweet)
-except tweepy.error.TweepError:
-    pass # for now, we just want to trap this silently, not act on it; later, we'll log it explicitly. Note that this error will currently get recorded indirectly in the log anyway.
-else:
-    # If everything worked, add the tweet to the tweet archive.
-    open(tweet_archive_path, 'a').write(the_tweet + "\n")
-finally:
-    patrick_logger.log_it('DEBUGGING:  Authorization object:\n' + pprint.pformat(vars(auth)) + '\nDEBUGGING:  API object:\n' + pprint.pformat(vars(api)) + '\nDEBUGGING:  Status object:', 2)
-    try:
-        patrick_logger.log_it(pprint.pformat(vars(status)), 2)
-    except NameError:
-        patrick_logger.log_it('  Not created, because an error occurred', 2)
+status = social_media.post_tweet(IrishLitTweets_client, the_tweet)
+# If everything worked, add the tweet to the tweet archive.
+open(tweet_archive_path, 'a').write(the_tweet + "\n")
+patrick_logger.log_it(pprint.pformat(vars(status)), 2)
 
 # We're done.
