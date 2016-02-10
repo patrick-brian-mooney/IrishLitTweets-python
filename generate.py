@@ -108,26 +108,25 @@ __date__ = "$Date: 2016/01/17 20:44:00 $"
 __copyright__ = "Copyright (c) 2015-16 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"
 
-import subprocess
-import pprint
-import getopt
-import sys
-import datetime
-import random
+import subprocess, pprint, getopt, sys, datetime, random
 
 import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
 import social_media
 from social_media_auth import IrishLitTweets_client
 
+from sentence_generator import *
+
 # Set up default values
 # patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
+chains_file = '/150/2chains.dat'        # The location of the compiled textual data.
 extra_material_archive_path = ''        # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
 
-# Functions
+the_markov_length, the_starts, the_mapping = read_chains(chains_file)
 
+# Functions
 def print_usage():
     """Print a usage message to the terminal"""
     patrick_logger.log_it("INFO: print_usage() was called")
@@ -190,7 +189,8 @@ def get_a_tweet():
                 patrick_logger.log_it("INFO: Wrote tweet to extra material archive", 2)
             except IOError: # and others?
                 patrick_logger.log_it("ERROR: Could not write extra material to archive", 0)
-        the_tweet = subprocess.check_output(["dadadodo -c " + str(sentences_requested) + " -l /150/chains.dat -w 10000"], shell=True).decode().strip()
+        the_tweet = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=sentences_requested, paragraph_break_probability=0)
+        the_tweet = the_tweet.strip()
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
     patrick_logger.log_it("OK, that's it, we found one")
