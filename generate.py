@@ -86,9 +86,7 @@ if it's not installed already.
 
 Some current problems:
     * no way to authenticate with Twitter via the script itself
-    * consumer secret is visible in script
-    * little to no error checking
-    * not enough is configurable via the command line
+    * not enough error checking
 
 This is v1.4. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
@@ -104,7 +102,7 @@ screen.
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
 __version__ = "$v1.4 $"
-__date__ = "$Date: 2016/01/17 20:44:00 $"
+__date__ = "$Date: 2016/09/22 20:44:00 $"
 __copyright__ = "Copyright (c) 2015-16 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"
 
@@ -119,7 +117,7 @@ from sentence_generator import *
 # Set up default values
 # patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
 chains_file = '/150/2chains.dat'        # The location of the compiled textual data.
-extra_material_archive_path = ''        # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
+extra_material_archive_path = ''       # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
