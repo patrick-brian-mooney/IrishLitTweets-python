@@ -256,7 +256,7 @@ while not got_it:
         patrick_logger.log_it("Aaaaaand that one's new. Tweeting it ...\n\n")
 
 # Now, post the tweet.
-status = social_media.post_tweet(IrishLitTweets_client, the_tweet)
+status = social_media.post_tweet(the_tweet, IrishLitTweets_client)
 # If everything worked, add the tweet to the tweet archive.
 open(tweet_archive_path, 'a').write(the_tweet + "\n")
 patrick_logger.log_it(pprint.pformat(vars(status)), 2)
