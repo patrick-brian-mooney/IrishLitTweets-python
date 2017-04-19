@@ -192,7 +192,7 @@ def get_a_tweet():
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
     patrick_logger.log_it("OK, that's it, we found one")
-    if extra_material_archive_path:	# End the paragraph that we've been accumulating during this run.
+    if extra_material_archive_path:    # End the paragraph that we've been accumulating during this run.
         try:
             extra_material_archive_path_file = open(extra_material_archive_path, 'a')
             extra_material_archive_path_file.write('\n\n') # Start a new paragraph in the extra material archive.
