@@ -112,17 +112,18 @@ import patrick_logger # From https://github.com/patrick-brian-mooney/personal-li
 import social_media
 from social_media_auth import IrishLitTweets_client
 
-from sentence_generator import *
+import sentence_generator as sg
 
 # Set up default values
 # patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
 chains_file = '/150/2chains.dat'        # The location of the compiled textual data.
 extra_material_archive_path = ''       # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
-tweet_archive_path = '/150/tweets.txt'  # If you don't like it, use -a on the command line
+tweet_archive_path = '/150/tweets.txt'
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
 
-the_markov_length, the_starts, the_mapping = read_chains(chains_file)
+genny = sg.TextGenerator('IrishLitTweets generator')
+genny.chains.read_chains(chains_file)
 
 # Functions
 def print_usage():
@@ -165,8 +166,8 @@ def get_a_tweet():
     function doesn't check to see if the tweet has been tweeted before; it just
     finds a tweet that's in acceptable length parameters.
 
-    Normally this procedure asks DadaDodo for a single-sentence chunk of text, but
-    note that if and only if -x or --extra-material-archive is in effect, the
+    By default, this procedure tries to generate a single-sentence chunk of text,
+    but note that if and only if -x or --extra-material-archive is in effect, the
     procedure asks for a random number of sentences between one and six. Most
     chunks of text generated from more than one sentence will be too long, which
     means that material accumulates in the archive faster.
@@ -178,7 +179,7 @@ def get_a_tweet():
     while not 45 < the_length < 141:
         if extra_material_archive_path:
             sentences_requested = random.choice(list(range(1, 4)))
-            patrick_logger.log_it("\nINFO: We're asking for " + str(sentences_requested) + " sentences.", 2)
+            patrick_logger.log_it("\nINFO: We're asking for %d sentences." % sentences_requested, 2)
         if the_tweet and extra_material_archive_path:
             try:
                 extra_material_archive_path_file = open(extra_material_archive_path, 'a')
@@ -187,7 +188,7 @@ def get_a_tweet():
                 patrick_logger.log_it("INFO: Wrote tweet to extra material archive", 2)
             except IOError: # and others?
                 patrick_logger.log_it("ERROR: Could not write extra material to archive", 0)
-        the_tweet = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=sentences_requested, paragraph_break_probability=0)
+        the_tweet = genny.gen_text(sentences_desired=sentences_requested, paragraph_break_probability=0)
         the_tweet = the_tweet.strip()
         the_length = len(the_tweet)
         patrick_logger.log_it("\nINFO:  The tweet generated was: " + the_tweet + "\nINFO:     and the length of that tweet is: " + str(the_length))
@@ -249,7 +250,7 @@ got_it = False
 
 while not got_it:
     the_tweet = get_a_tweet()
-    if the_tweet in open(tweet_archive_path).read():    # Incidentally, this is a bad idea if the tweets log ever gets very big
+    if the_tweet in open(tweet_archive_path).read():
         patrick_logger.log_it("That was already tweeted! Trying again ...\n\n\n")
     else:
         got_it = True
