@@ -219,22 +219,22 @@ if len(sys.argv) > 1: # The first option (index 0) in argv, of course, is the na
         sys.exit(2)
     patrick_logger.log_it('INFO: detected number of command-line arguments is ' + str(len(sys.argv)), 2)
     for opt, args in opts:
-        patrick_logger.log_it('Processing option ' + str(opt), 2)
+        patrick_logger.log_it('Processing option: %s' % opt, 2)
         if opt in ('-h', '--help'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked, printing usage message')
+            patrick_logger.log_it('INFO: %s invoked, printing usage message' % opt)
             print_usage()
             sys.exit()
         elif opt in ('-v', '--verbose'):
             patrick_logger.verbosity_level += 1
-            patrick_logger.log_it('INFO: ' + opt + ' invoked, added one to verbosity level\n     Verbosity level is now ' + str(patrick_logger.verbosity_level))
+            patrick_logger.log_it('INFO: %s invoked, added one to verbosity level; verbosity level is now %s' % (opt, patrick_logger.verbosity_level))
         elif opt in ('-q', '--quiet'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked, decreasing verbosity level by one\n     Verbosity level is about to drop to ' + str(patrick_logger.verbosity_level-1))
+            patrick_logger.log_it('INFO: %s invoked, decreasing verbosity level by one\n     Verbosity level is about to drop to %s' % (opt, str(patrick_logger.verbosity_level-1)))
             patrick_logger.verbosity_level -= 1
         elif opt in ('-x', '--extra-material'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked; extra material archive initialized to ' + args, 2)
+            patrick_logger.log_it('INFO: %s invoked; extra material archive initialized to ' % (opt, args), 2)
             extra_material_archive_path = args
         elif opt in ('-a', '--archive'):
-            patrick_logger.log_it('INFO: ' + opt + ' invoked; tweet archive set to ' + args, 2)
+            patrick_logger.log_it('INFO: %s invoked; tweet archive set to %s' % (opt, args), 2)
             tweet_archive_path = args
         elif opt == '--sort-archive':
             patrick_logger.log_it('INFO: --sort-archive specified; sorting and exiting')
