@@ -231,7 +231,7 @@ if len(sys.argv) > 1: # The first option (index 0) in argv, of course, is the na
             patrick_logger.log_it('INFO: %s invoked, decreasing verbosity level by one\n     Verbosity level is about to drop to %s' % (opt, str(patrick_logger.verbosity_level-1)))
             patrick_logger.verbosity_level -= 1
         elif opt in ('-x', '--extra-material'):
-            patrick_logger.log_it('INFO: %s invoked; extra material archive initialized to ' % (opt, args), 2)
+            patrick_logger.log_it('INFO: %s invoked; extra material archive initialized to: %s' % (opt, args), 2)
             extra_material_archive_path = args
         elif opt in ('-a', '--archive'):
             patrick_logger.log_it('INFO: %s invoked; tweet archive set to %s' % (opt, args), 2)
