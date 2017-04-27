@@ -102,8 +102,8 @@ screen.
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
 __version__ = "$v1.4 $"
-__date__ = "$Date: 2016/09/22 20:44:00 $"
-__copyright__ = "Copyright (c) 2015-16 Patrick Mooney"
+__date__ = "$Date: 2017/04/26 18:29:00 $"
+__copyright__ = "Copyright (c) 2015-17 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"
 
 import subprocess, pprint, getopt, sys, datetime, random
@@ -112,7 +112,7 @@ import patrick_logger # From https://github.com/patrick-brian-mooney/personal-li
 import social_media
 from social_media_auth import IrishLitTweets_client
 
-import sentence_generator as sg
+import text_generator as tg
 
 # Set up default values
 # patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
@@ -122,7 +122,7 @@ tweet_archive_path = '/150/tweets.txt'
 
 patrick_logger.log_it("INFO: WE'RE STARTING, and the verbosity level is " + str(patrick_logger.verbosity_level), 0)
 
-genny = sg.TextGenerator('IrishLitTweets generator')
+genny = tg.TextGenerator('IrishLitTweets generator')
 genny.chains.read_chains(chains_file)
 
 # Functions
