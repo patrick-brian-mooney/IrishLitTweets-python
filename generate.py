@@ -45,7 +45,7 @@ COMMAND-LINE OPTIONS
 
       Since v1.3, this option also makes the script try (most of the time) to
       generate more than one sentence: without this option, the script just
-      asks DadaDodo for a single sentence. With this option, the script will
+      tries to generate a single sentence. With this option, the script will
       try to generate anywhere between one and four sentences. This has the side
       effect of producing a lot more material for the extra material archive.
 
