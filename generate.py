@@ -101,8 +101,8 @@ screen.
 """
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
-__version__ = "$v1.4 $"
-__date__ = "$Date: 2017/04/26 18:29:00 $"
+__version__ = "$v1.5 $"
+__date__ = "$Date: 2017/12/24 18:29:00 $"
 __copyright__ = "Copyright (c) 2015-17 Patrick Mooney"
 __license__ = "GPL v3, or, at your option, any later version"
 
@@ -173,12 +173,12 @@ def get_a_tweet():
     means that material accumulates in the archive faster.
     """
     patrick_logger.log_it("INFO: finding a tweet ...")
-    the_length = 160
+    the_length = 1024
     the_tweet = ''
     sentences_requested = 1
-    while not 45 < the_length < 141:
+    while not 45 < the_length < 281:
         if extra_material_archive_path:
-            sentences_requested = random.choice(list(range(1, 4)))
+            sentences_requested = random.choice(list(range(1, 6)))
             patrick_logger.log_it("\nINFO: We're asking for %d sentences." % sentences_requested, 2)
         if the_tweet and extra_material_archive_path:
             try:
