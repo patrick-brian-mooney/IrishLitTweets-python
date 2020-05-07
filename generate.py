@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 """
   ./generate.py [options]
-
-If you're reading this statement, be aware that this is early-development code
-that's nowhere near complete and not really intended for public use. However,
-feedback is most welcome. See http://patrickbrianmooney.nfshost.com/~patrick/contact.html
 
 This script is by Patrick Mooney. It generates tweets based on writing I did as
 a teaching assistant for a course on Irish literature. More information about
@@ -79,25 +75,21 @@ generate.py.
 
 This script requires tweepy, a module that handles Twitter authentication. Try
 typing
-    pip install tweepy
-or
-    sudo pip install tweepy
+
+    [sudo] pip[3] [-U] install tweepy
+
 if it's not installed already.
 
 Some current problems:
     * no way to authenticate with Twitter via the script itself
     * not enough error checking
 
-This is v1.4. A version number above 1 doesn't mean it's ready for the public,
+This is v1.5. A version number above 1 doesn't mean it's ready for the public,
 just that there have been multiple versions.
 http://patrickbrianmooney.nfshost.com/~patrick/projects/IrishLitTweets/
 
 This program is licensed under the GPL v3 or, at your option, any later
 version. See the file LICENSE.md for a copy of this licence.
-
-If this is your first time running this script, it's a REALLY GOOD IDEA to read
-all of this text, including whatever might have scrolled off the top of your
-screen.
 """
 
 __author__ = "Patrick Mooney, http://patrickbrianmooney.nfshost.com/~patrick/"
