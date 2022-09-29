@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/150/bin/python3
 """
   ./generate.py [options]
 
@@ -119,7 +119,7 @@ import text_generator as tg
 # Set up default values
 # patrick_logger.verbosity_level = 4    # uncomment this to set the starting verbosity level
 chains_file = '/150/2chains.dat'        # The location of the compiled textual data.
-extra_material_archive_path = ''       # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
+extra_material_archive_path = '/150/extras.txt'       # Full path to a file. An empty string means don't archive (i.e., do discard) material that's too long.
 tweet_archive_path = '/150/tweets.txt'
 social_media_auth_file = '/social_media_auth.json'
 
